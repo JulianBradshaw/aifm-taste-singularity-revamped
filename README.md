@@ -1,5 +1,20 @@
 # AI Futures Model (with bug fixes)
 
+> [!NOTE]
+> **Two λs and taste-only singularity runs.** On top of the bug fixes, this
+> copy makes two changes:
+>
+> - **Two λs.** The parallelization penalty λ (`parallel_penalty`) now applies
+>   only to growth in parallel coding labor after the present day. History and
+>   calibration (today's uplift, the r_software refit, the experiment-capacity
+>   calibration and the starting research stock) use a separate
+>   `calibration_parallel_penalty`, fixed at the presets' 0.5. Raising λ then
+>   means "future AI swarms parallelize better" without also rereading the past.
+>   At λ 0.5 the model is unchanged.
+> - **β-hold.** An optional switch holds β (r_software) fixed after
+>   calibration, plus scripts that scale the research taste slope and run the
+>   Monte Carlo grid. See [taste_singularity/README.md](taste_singularity/README.md).
+
 > [!WARNING]
 > **Unverified fixes.** This repository is a copy of
 > [AI-Futures-Project/aifm-public](https://github.com/AI-Futures-Project/aifm-public)
