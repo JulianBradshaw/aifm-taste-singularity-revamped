@@ -413,7 +413,11 @@ def progress_rate_at_time(t: float, state: List[float], time_series_data: TimeSe
                     automation_model = params.automation_model
                     L_opt = automation_model.coding_labor_optimal_ces(H, C, lnE, params)
                     # Match units with compute_coding_labor_deprecated: apply parallel_penalty and normalization
-                    coding_labor = float((L_opt ** params.parallel_penalty) * params.coding_labor_normalization)
+                    x0 = getattr(params, 'forward_labor_reference', None)  # parallel coding labor at present day
+                    if x0 is not None and t >= params.present_day:  # the forward lambda applies to growth after today
+                        L_opt = x0 * (L_opt / x0) ** (params.parallel_penalty / params.calibration_parallel_penalty)
+                    pp = params.parallel_penalty if x0 is None else params.calibration_parallel_penalty
+                    coding_labor = float((L_opt ** pp) * params.coding_labor_normalization)
                 except Exception as e:
                     if should_reraise(e):
                         raise

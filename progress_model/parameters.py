@@ -112,6 +112,7 @@ class Parameters:
     inv_compute_anchor_exp_cap: float = field(default_factory=lambda: cfg.DEFAULT_PARAMETERS['inv_compute_anchor_exp_cap'])
     # penalty on parallel coding labor in exp capacity CES
     parallel_penalty: float = field(default_factory=lambda: cfg.DEFAULT_PARAMETERS['parallel_penalty'])
+    calibration_parallel_penalty: float = 0.5  # lambda for historical labor and the uplift backcalculation
 
     # Research taste distribution parameter
     median_to_top_taste_multiplier: float = field(default_factory=lambda: cfg.DEFAULT_PARAMETERS['median_to_top_taste_multiplier'])
@@ -349,7 +350,8 @@ class Parameters:
                 self.optimal_ces_grid_size = int(self.optimal_ces_grid_size)
 
             # Apply parallel_penalty transformation to coding_automation_efficiency_slope
-            # Transform: slope_transformed = slope_input * (0.5 / parallel_penalty)
+            # The slope is in OOMs, so rescaling it from lambda=0.5 is linear:
+            # slope_transformed = slope_input * (0.5 / parallel_penalty)
             if np.isfinite(self.parallel_penalty) and self.parallel_penalty != 0:
                 try:
                     factor = 0.5 / self.parallel_penalty
@@ -466,7 +468,7 @@ class Parameters:
 def _uplift_parallel_penalty(params) -> float:
     """The parallel->serial exponent, or ValueError when it cannot be used."""
     try:
-        pp = float(params.parallel_penalty)
+        pp = float(params.calibration_parallel_penalty)
     except (AttributeError, TypeError, ValueError) as e:
         raise ValueError(
             f"parallel_penalty is required to convert between the parallel and "

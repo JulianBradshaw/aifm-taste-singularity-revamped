@@ -1174,6 +1174,7 @@ class ProgressModel:
         _timing_wall: Dict[str, float] = {}
         _timing_cpu: Dict[str, float] = {}
         _timing_meta: Dict[str, Any] = {}
+        self.params.forward_labor_reference = None
         # first, compute exp capacity params from asymptotes and anchors
         if not self.params.direct_input_exp_cap_ces_params:
             # Use present_day for reference instead of fixed REFERENCE_YEAR (2024.8)
@@ -1188,7 +1189,7 @@ class ProgressModel:
                 (cfg.REFERENCE_COMPUTE_CHANGE, self.params.compute_anchor_exp_cap),
                 (cfg.REFERENCE_LABOR_CHANGE, self.params.labor_anchor_exp_cap),
                 ref_exp_compute, ref_coding_labor,
-                self.params.parallel_penalty,
+                self.params.calibration_parallel_penalty,
                 self.params.coding_labor_normalization,
             )
             self.params.rho_experiment_capacity = rho
@@ -1439,6 +1440,7 @@ class ProgressModel:
         #    observable), so only the lower anchor needs solving.
         _t_anchor_solver_start = time.perf_counter()
         _c_anchor_solver_start = time.process_time()
+        forward_penalty, self.params.parallel_penalty = self.params.parallel_penalty, self.params.calibration_parallel_penalty
         self._derive_automation_schedule(
             _mapping_times, _mapping_progress, _mapping_progress_rates,
             anchor_progress_rate, float(present_day_progress),
@@ -1475,9 +1477,12 @@ class ProgressModel:
         _timing_wall['td_correction_pass'] = time.perf_counter() - _t0
         _timing_cpu['td_correction_pass'] = time.process_time() - _c0
 
+        self.params.parallel_penalty = forward_penalty
         # Use utility function to compute initial conditions with the correct parameters
         _t0 = time.perf_counter()
         _c0 = time.process_time()
+        self.params.forward_labor_reference = self.params.automation_model.coding_labor_optimal_ces(present_day_human_labor,
+            present_day_inference_compute, np.log(cfg.BASE_FOR_SOFTWARE_LOM) * present_day_progress, self.params)
         initial_conditions = compute_initial_conditions(self.data, self.params, initial_progress)
         _timing_wall['initial_conditions'] = time.perf_counter() - _t0
         _timing_cpu['initial_conditions'] = time.process_time() - _c0

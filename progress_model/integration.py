@@ -140,7 +140,7 @@ def calculate_initial_research_stock(time_series_data: TimeSeriesData, params: P
         L_HUMAN_0 = _log_interp(start_time, time_series_data.time, time_series_data.L_HUMAN)
         experiment_compute_0 = _log_interp(start_time, time_series_data.time, time_series_data.experiment_H100e)
         initial_aggregate_research_taste = 1
-        coding_labor_0 = L_HUMAN_0 ** params.parallel_penalty * params.coding_labor_normalization
+        coding_labor_0 = L_HUMAN_0 ** params.calibration_parallel_penalty * params.coding_labor_normalization
         # Calculate RS'(0)
         rs_rate_0 = compute_research_effort(
             experiment_compute_0, coding_labor_0,
@@ -153,7 +153,7 @@ def calculate_initial_research_stock(time_series_data: TimeSeriesData, params: P
         experiment_compute_dt = _log_interp(start_time + dt, time_series_data.time, time_series_data.experiment_H100e)
 
         # Automation fraction changes very little over small dt, so use same value
-        coding_labor_dt = L_HUMAN_dt ** params.parallel_penalty * params.coding_labor_normalization
+        coding_labor_dt = L_HUMAN_dt ** params.calibration_parallel_penalty * params.coding_labor_normalization
 
         rs_rate_dt = compute_research_effort(
             experiment_compute_dt, coding_labor_dt,
@@ -220,7 +220,7 @@ def compute_initial_conditions(time_series_data: TimeSeriesData, params: Paramet
         initial_automation = 1.0
         initial_ai_research_taste = 0.0
         initial_aggregate_research_taste = 1.0
-        coding_labor = compute_coding_labor_deprecated(None, inference_H100e, L_HUMAN, params.rho_coding_labor, params.parallel_penalty, params.coding_labor_normalization, human_only=True)
+        coding_labor = compute_coding_labor_deprecated(None, inference_H100e, L_HUMAN, params.rho_coding_labor, params.calibration_parallel_penalty, params.coding_labor_normalization, human_only=True)
         research_effort = compute_research_effort(experiment_H100e, coding_labor, params.alpha_experiment_capacity, params.rho_experiment_capacity, params.experiment_compute_exponent, initial_aggregate_research_taste)
     else:
         initial_automation = compute_automation_fraction(initial_progress, params)
@@ -228,7 +228,7 @@ def compute_initial_conditions(time_series_data: TimeSeriesData, params: Paramet
         initial_aggregate_research_taste = compute_aggregate_research_taste(initial_ai_research_taste, params.taste_distribution)
         coding_labor = compute_coding_labor_deprecated(
             initial_automation, inference_H100e, L_HUMAN,
-            params.rho_coding_labor, params.parallel_penalty, params.coding_labor_normalization
+            params.rho_coding_labor, params.calibration_parallel_penalty, params.coding_labor_normalization
         )
 
         research_effort = compute_research_effort(
@@ -344,7 +344,7 @@ def integrate_progress_human_only(
         experiment_compute_fine = np.interp(internal_times, data.time, data.experiment_H100e)
 
     # ========== STEP 2: Compute coding labor (vectorized) ==========
-    serial_coding_labor_fine = np.power(L_HUMAN_fine, params.parallel_penalty) * params.coding_labor_normalization
+    serial_coding_labor_fine = np.power(L_HUMAN_fine, params.calibration_parallel_penalty) * params.coding_labor_normalization
     if serial_labor_multiplier_fn is not None:
         serial_coding_labor_fine = serial_coding_labor_fine * np.asarray(
             serial_labor_multiplier_fn(internal_times), dtype=float)
