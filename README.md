@@ -8,6 +8,8 @@
 > V2 figures from this repository, see
 > [taste_singularity/REPRODUCING.md](taste_singularity/REPRODUCING.md).
 
+---
+
 > [!NOTE]
 > **Two λs and taste-only singularity runs.** On top of the bug fixes, this
 > copy makes two changes:
