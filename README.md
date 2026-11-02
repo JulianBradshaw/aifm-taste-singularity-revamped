@@ -2,7 +2,9 @@
 
 > [!IMPORTANT]
 > **Write-up:** [Likelihood of Taste-Only Singularity V2](docs/Likelihood-of-Taste-Only-Singularity-V2.pdf)
-> ([Markdown](docs/Likelihood-of-Taste-Only-Singularity-V2.md)). The
+> ([Markdown](docs/Likelihood-of-Taste-Only-Singularity-V2.md)). The original
+> [V1 write-up](docs/Likelihood-of-Taste-Only-Singularity-V1.pdf)
+> ([Markdown](docs/Likelihood-of-Taste-Only-Singularity-V1.md)) is kept for reference; the
 > [errata for Version 1](docs/Errata-with-appendix.pdf) ([Markdown](docs/Errata.md))
 > include an appendix on replicating the Version 1 numbers. To regenerate the
 > V2 figures from this repository, see
