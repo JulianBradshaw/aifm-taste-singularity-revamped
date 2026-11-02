@@ -1,4 +1,4 @@
-# AI Futures Model (with bug fixes)
+# AI Futures Model (Special Taste-Only Singularity Estimation Edition!)
 
 > [!IMPORTANT]
 > **Write-up:** [Likelihood of Taste-Only Singularity V2](docs/Likelihood-of-Taste-Only-Singularity-V2.pdf)
