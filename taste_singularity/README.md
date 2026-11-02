@@ -36,6 +36,11 @@ matches the 15x reference sample.
 Targets: TasteVal-like m_search = 0.615, direction taste m_dir = 0.24, and the
 blend m_eff = w·m_dir + (1 − w)·m_search for w ∈ {0.3, 0.5, 0.7}.
 
+## Results
+
+The 300-sample Monte Carlo results for this copy, with the raw rows, are in
+[results/RESULTS.md](results/RESULTS.md).
+
 ## Scripts
 
 Run from this folder with `AIFM_ROOT=..` (the repository root) after
