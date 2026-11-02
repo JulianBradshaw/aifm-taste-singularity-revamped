@@ -59,6 +59,10 @@ Run from this folder with `AIFM_ROOT=..` (the repository root) after
   at its 15x value, then with m held too.
 - `mc2.py N OUT`: the grid λ ∈ {0.65, 0.9} × ceiling ∈ {15x, 50x} ×
   w ∈ {0.3, 0.5, 0.7}, with β and m held per sample at their λ 0.65, 15x values.
+- `mc3.py N OUT [sampled|grid|both]`: λ drawn uniformly from [0.6, 0.9] and the
+  ceiling log-uniformly from [10x, 75x] per sample, and the corners of that box,
+  for w ∈ {0.4, 0.6, 0.8}, with β and m held per sample at their 15x values.
+  Reads `mc300.jsonl` (here or in `results/`). `ana3.py` summarises it.
 - `ana.py`, `ana2.py`: summaries (P(TOS), median AC→ASI, median ASI,
   P(ASI < 2030)).
 
