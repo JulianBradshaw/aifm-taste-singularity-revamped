@@ -40,6 +40,8 @@ blend m_eff = w·m_dir + (1 − w)·m_search for w ∈ {0.3, 0.5, 0.7}.
 
 The 300-sample Monte Carlo results for this copy, with the raw rows, are in
 [results/RESULTS.md](results/RESULTS.md).
+[REPRODUCING.md](REPRODUCING.md) walks through regenerating them and
+deriving each headline number (`derive.py`).
 
 ## Scripts
 
